@@ -1,0 +1,93 @@
+/* Button Component Styles */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-compact);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
+/* Sizes */
+.btn--small {
+    padding: 8px 16px;
+    font-size: var(--font-size-body-sm);
+}
+
+.btn--medium {
+    padding: 12px 24px;
+    font-size: var(--font-size-body);
+}
+
+.btn--large {
+    padding: 14px 28px;
+    font-size: var(--font-size-body-lg);
+}
+
+/* Variants */
+.btn--primary {
+    background-color: var(--color-primary);
+    color: var(--color-surface-1);
+}
+
+.btn--primary:hover:not(:disabled) {
+    background-color: var(--color-primary-hover);
+}
+
+.btn--primary:active:not(:disabled) {
+    background-color: var(--color-primary-active);
+}
+
+.btn--secondary {
+    background-color: var(--color-accent-blue-gray);
+    color: var(--color-surface-1);
+}
+
+.btn--secondary:hover:not(:disabled) {
+    background-color: #4d6875;
+}
+
+.btn--secondary:active:not(:disabled) {
+    background-color: #3e5460;
+}
+
+.btn--tertiary {
+    background-color: transparent;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn--tertiary:hover:not(:disabled) {
+    background-color: rgba(11, 122, 117, 0.05);
+    border-color: var(--color-primary-hover);
+    color: var(--color-primary-hover);
+}
+
+.btn--text {
+    background-color: transparent;
+    color: var(--color-primary);
+    padding: 8px 12px;
+}
+
+.btn--text:hover:not(:disabled) {
+    color: var(--color-primary-hover);
+    background-color: rgba(11, 122, 117, 0.05);
+}
+
+/* Focus state */
+.btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}

@@ -1,0 +1,39 @@
+/* CategoryCard Component Styles */
+
+.category-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--spacing-md);
+    cursor: pointer;
+    min-height: 180px;
+    justify-content: center;
+}
+
+.category-icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(11, 122, 117, 0.1);
+    border-radius: var(--radius-md);
+    color: var(--color-primary);
+}
+
+.category-icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.category-title {
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.category-count {
+    font-size: var(--font-size-body);
+    color: var(--color-text-secondary);
+}

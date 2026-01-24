@@ -1,0 +1,67 @@
+/* JobCard Component Styles */
+
+.job-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.job-card:hover {
+    transform: translateY(-4px);
+}
+
+.job-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+}
+
+.job-card-info {
+    flex: 1;
+}
+
+.job-title {
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.job-company {
+    font-size: var(--font-size-body);
+    color: var(--color-text-secondary);
+}
+
+.job-card-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.job-detail-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: var(--font-size-body-sm);
+    color: var(--color-text-secondary);
+}
+
+.job-detail-item svg {
+    flex-shrink: 0;
+}
+
+.job-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--spacing-sm);
+    border-top: 1px solid var(--color-border);
+}
+
+.job-time {
+    font-size: var(--font-size-body-sm);
+    color: var(--color-text-secondary);
+}
