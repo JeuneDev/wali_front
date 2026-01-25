@@ -3,6 +3,7 @@ import CategoryCard from '../components/features/CategoryCard';
 import JobCard from '../components/features/JobCard';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
+import Typewriter from 'typewriter-effect';
 import './Home.css';
 
 export default function Home() {
@@ -176,7 +177,16 @@ export default function Home() {
             <section className="hero">
                 <div className="container">
                     <h1 className="hero-title">
-                        Trouvez l'emploi de vos rêves en Guinée
+                        <Typewriter
+                            options={{
+                                strings: ['Trouvez l\'emploi de vos rêves en Guinée'],
+                                autoStart: true,
+                                loop: true,
+                                delay: 50,
+                                deleteSpeed: 30,
+                                pauseFor: 3000,
+                            }}
+                        />
                     </h1>
                     <p className="hero-subtitle">
                         Connectez-vous avec les meilleures opportunités d'emploi et donnez un nouvel élan à votre carrière
