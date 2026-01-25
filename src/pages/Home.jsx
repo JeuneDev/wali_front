@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import SearchBar from '../components/features/SearchBar';
 import CategoryCard from '../components/features/CategoryCard';
 import JobCard from '../components/features/JobCard';
@@ -166,6 +167,38 @@ export default function Home() {
         }
     ];
 
+    // Animation variants
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { y: 20, opacity: 0 },
+        visible: {
+            y: 0,
+            opacity: 1,
+            transition: {
+                type: "spring",
+                stiffness: 100
+            }
+        }
+    };
+
+    const heroVariants = {
+        hidden: { opacity: 0, y: -20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.6, ease: "easeOut" }
+        }
+    };
+
     const handleSearch = (searchData) => {
         console.log('Search:', searchData);
         // Handle search logic here
@@ -174,7 +207,12 @@ export default function Home() {
     return (
         <div className="home">
             {/* Hero Section */}
-            <section className="hero">
+            <motion.section
+                className="hero"
+                initial="hidden"
+                animate="visible"
+                variants={containerVariants}
+            >
                 <div className="container">
                     <h1 className="hero-title">
                         <Typewriter
@@ -188,14 +226,14 @@ export default function Home() {
                             }}
                         />
                     </h1>
-                    <p className="hero-subtitle">
+                    <motion.p className="hero-subtitle" variants={heroVariants}>
                         Connectez-vous avec les meilleures opportunités d'emploi et donnez un nouvel élan à votre carrière
-                    </p>
-                    <div className="hero-search">
+                    </motion.p>
+                    <motion.div className="hero-search" variants={heroVariants}>
                         <SearchBar onSearch={handleSearch} />
-                    </div>
+                    </motion.div>
                 </div>
-            </section>
+            </motion.section>
 
             {/* Recent Jobs Section */}
             <section className="section">
@@ -204,11 +242,19 @@ export default function Home() {
                         <h2 className="section-title">Dernières offres publiées</h2>
                         <Button variant="text">Voir toutes les offres →</Button>
                     </div>
-                    <div className="jobs-grid">
+                    <motion.div
+                        className="jobs-grid"
+                        variants={containerVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: "-50px" }}
+                    >
                         {recentJobs.map(job => (
-                            <JobCard key={job.id} job={job} />
+                            <motion.div key={job.id} variants={itemVariants}>
+                                <JobCard job={job} />
+                            </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                 </div>
             </section>
 
@@ -216,50 +262,68 @@ export default function Home() {
             <section className="section section-gray">
                 <div className="container">
                     <h2 className="section-title text-center">Rechercher par secteur</h2>
-                    <div className="categories-grid">
+                    <motion.div
+                        className="categories-grid"
+                        variants={containerVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: "-50px" }}
+                    >
                         {categories.map(category => (
-                            <CategoryCard key={category.id} category={category} />
+                            <motion.div key={category.id} variants={itemVariants}>
+                                <CategoryCard category={category} />
+                            </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                 </div>
             </section>
 
             {/* CTA Sections */}
             <section className="section">
                 <div className="container">
-                    <div className="cta-grid">
-                        <Card className="cta-card">
-                            <div className="cta-icon">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                                    <circle cx="12" cy="7" r="4" />
-                                </svg>
-                            </div>
-                            <h3 className="cta-title">Créez votre profil candidat</h3>
-                            <p className="cta-description">
-                                Construisez un profil complet et recevez des recommandations d'emploi personnalisées directement dans votre boîte mail.
-                            </p>
-                            <Button variant="primary" size="medium">
-                                Créer mon profil
-                            </Button>
-                        </Card>
+                    <motion.div
+                        className="cta-grid"
+                        variants={containerVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: "-50px" }}
+                    >
+                        <motion.div variants={itemVariants}>
+                            <Card className="cta-card">
+                                <div className="cta-icon">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                        <circle cx="12" cy="7" r="4" />
+                                    </svg>
+                                </div>
+                                <h3 className="cta-title">Créez votre profil candidat</h3>
+                                <p className="cta-description">
+                                    Construisez un profil complet et recevez des recommandations d'emploi personnalisées directement dans votre boîte mail.
+                                </p>
+                                <Button variant="primary" size="medium">
+                                    Créer mon profil
+                                </Button>
+                            </Card>
+                        </motion.div>
 
-                        <Card className="cta-card">
-                            <div className="cta-icon cta-icon-secondary">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-                                </svg>
-                            </div>
-                            <h3 className="cta-title">Recrutez les meilleurs talents</h3>
-                            <p className="cta-description">
-                                Accédez à une base de candidats qualifiés et publiez vos offres d'emploi pour atteindre les meilleurs profils de Guinée.
-                            </p>
-                            <Button variant="secondary" size="medium">
-                                Publier une offre
-                            </Button>
-                        </Card>
-                    </div>
+                        <motion.div variants={itemVariants}>
+                            <Card className="cta-card">
+                                <div className="cta-icon cta-icon-secondary">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                                    </svg>
+                                </div>
+                                <h3 className="cta-title">Recrutez les meilleurs talents</h3>
+                                <p className="cta-description">
+                                    Accédez à une base de candidats qualifiés et publiez vos offres d'emploi pour atteindre les meilleurs profils de Guinée.
+                                </p>
+                                <Button variant="secondary" size="medium">
+                                    Publier une offre
+                                </Button>
+                            </Card>
+                        </motion.div>
+                    </motion.div>
                 </div>
             </section>
         </div>
