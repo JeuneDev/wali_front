@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import JobCard from '../components/features/JobCard';
 import './JobSearch.css';
@@ -11,32 +11,118 @@ export default function JobSearch() {
 
     const [selectedContractTypes, setSelectedContractTypes] = useState([]);
     const [selectedExperienceLevels, setSelectedExperienceLevels] = useState([]);
+    const [selectedSector, setSelectedSector] = useState('Tous les secteurs');
+    const [selectedDate, setSelectedDate] = useState('Toutes les dates');
+
+    const industries = ['Tous les secteurs', ...new Set(jobs.map(job => job.industry).filter(Boolean))];
+    const dateOptions = [
+        'Toutes les dates',
+        'Dernières 24h',
+        '7 derniers jours',
+        '30 derniers jours'
+    ];
 
     const handleCheckboxChange = (e, type, value) => {
         if (type === 'contract') {
             setSelectedContractTypes(prev =>
-                e.target.checked ? [...prev, value] : prev.filter(item => item !== value)
+                e.target.checked ? [...prev, value.trim()] : prev.filter(item => item !== value.trim())
             );
         } else if (type === 'experience') {
             setSelectedExperienceLevels(prev =>
-                e.target.checked ? [...prev, value] : prev.filter(item => item !== value)
+                e.target.checked ? [...prev, value.trim()] : prev.filter(item => item !== value.trim())
             );
         }
     };
 
-    const filteredJobs = jobs.filter(job => {
-        const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            job.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const [sortBy, setSortBy] = useState('Plus récentes');
+    const [visibleItems, setVisibleItems] = useState(10);
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const loaderRef = useRef(null);
 
-        const matchesLocation = location === '' || job.location.toLowerCase().includes(location.toLowerCase());
+    const handleReset = () => {
+        setSearchQuery('');
+        setLocation('');
+        setSelectedContractTypes([]);
+        setSelectedExperienceLevels([]);
+        setSelectedSector('Tous les secteurs');
+        setSelectedDate('Toutes les dates');
+        setSortBy('Plus récentes');
+        setVisibleItems(10);
+    };
 
-        const matchesContract = selectedContractTypes.length === 0 || selectedContractTypes.includes(job.contractType);
+    const getSalaryValue = (salaryStr) => {
+        if (!salaryStr) return 0;
+        // Basic parser for GNF salary strings
+        const matches = salaryStr.match(/(\d+)/g);
+        if (matches) return parseInt(matches.join(''));
+        return 0;
+    };
 
-        const matchesExperience = selectedExperienceLevels.length === 0 || selectedExperienceLevels.includes(job.experience);
+    const hasActiveFilters = searchQuery.trim() !== '' ||
+        location.trim() !== '' ||
+        selectedContractTypes.length > 0 ||
+        selectedExperienceLevels.length > 0 ||
+        selectedSector !== 'Tous les secteurs' ||
+        selectedDate !== 'Toutes les dates';
 
-        return matchesSearch && matchesLocation && matchesContract && matchesExperience;
-    });
+    const allFilteredJobs = useMemo(() => {
+        const baseJobs = !hasActiveFilters
+            ? [...jobs].sort((a, b) => a.postedDays - b.postedDays)
+            : jobs.filter(job => {
+                const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    job.description.toLowerCase().includes(searchQuery.toLowerCase());
+
+                const matchesLocation = location === '' || job.location.toLowerCase().includes(location.toLowerCase());
+                const matchesContract = selectedContractTypes.length === 0 || selectedContractTypes.includes(job.contractType);
+                const matchesExperience = selectedExperienceLevels.length === 0 || selectedExperienceLevels.includes(job.experience) ||
+                    (job.experience.includes('Expérimenté') && selectedExperienceLevels.includes('Expérimenté'));
+                const matchesSector = selectedSector === 'Tous les secteurs' || job.industry === selectedSector;
+
+                let matchesDate = true;
+                if (selectedDate === 'Dernières 24h') matchesDate = job.postedDays <= 1;
+                else if (selectedDate === '7 derniers jours') matchesDate = job.postedDays <= 7;
+                else if (selectedDate === '30 derniers jours') matchesDate = job.postedDays <= 30;
+
+                return matchesSearch && matchesLocation && matchesContract && matchesExperience && matchesSector && matchesDate;
+            });
+
+        if (hasActiveFilters) {
+            return baseJobs.sort((a, b) => {
+                if (sortBy === 'Plus récentes') return a.postedDays - b.postedDays;
+                if (sortBy === 'Salaire décroissant') return getSalaryValue(b.salary) - getSalaryValue(a.salary);
+                return 0;
+            });
+        }
+        return baseJobs;
+    }, [searchQuery, location, selectedContractTypes, selectedExperienceLevels, selectedSector, selectedDate, sortBy, hasActiveFilters]);
+
+    const filteredJobs = allFilteredJobs.slice(0, visibleItems);
+
+    // Reset pagination when filters change
+    useEffect(() => {
+        setVisibleItems(10);
+    }, [searchQuery, location, selectedContractTypes, selectedExperienceLevels, selectedSector, selectedDate, sortBy]);
+
+    // Infinite Scroll logic
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            const target = entries[0];
+            if (target.isIntersecting && visibleItems < allFilteredJobs.length && !isLoadingMore) {
+                setIsLoadingMore(true);
+                // Simuler un délai réseau
+                setTimeout(() => {
+                    setVisibleItems(prev => prev + 10);
+                    setIsLoadingMore(false);
+                }, 800);
+            }
+        }, { threshold: 1.0 });
+
+        if (loaderRef.current) observer.observe(loaderRef.current);
+        return () => {
+            if (loaderRef.current) observer.unobserve(loaderRef.current);
+        };
+    }, [visibleItems, allFilteredJobs.length, isLoadingMore]);
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -88,29 +174,31 @@ export default function JobSearch() {
                     {/* Sector */}
                     <div className="filter-group">
                         <label>Secteur d'activité</label>
-                        <div className="filter-dropdown">
-                            <button className="dropdown-btn">
-                                Tous les secteurs
-                                <svg className="dropdown-icon" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                                </svg>
-                            </button>
-                        </div>
+                        <select
+                            className="filter-input"
+                            value={selectedSector}
+                            onChange={(e) => setSelectedSector(e.target.value)}
+                        >
+                            {industries.map(industry => (
+                                <option key={industry} value={industry}>{industry}</option>
+                            ))}
+                        </select>
                     </div>
 
                     {/* Contract Type */}
                     <div className="filter-group">
                         <label>Type de contrat</label>
                         <div className="checkbox-list">
-                            {[' CDI', ' CDD', ' Stage', ' Freelance'].map(type => (
+                            {['CDI', 'CDD', 'Stage', 'Freelance'].map(type => (
                                 <label key={type} className="checkbox-item">
                                     <input
                                         type="checkbox"
+                                        checked={selectedContractTypes.includes(type)}
                                         onChange={(e) => handleCheckboxChange(e, 'contract', type)}
                                     />
-                                    <span>{type === 'CDI' ? ' CDI (Contrat à Durée Indéterminée)' :
-                                        type === 'CDD' ? ' CDD (Contrat à Durée Déterminée)' :
-                                            type === 'Freelance' ? ' Freelance/Indépendant' : type}</span>
+                                    <span>{type === 'CDI' ? 'CDI (Contrat à Durée Indéterminée)' :
+                                        type === 'CDD' ? 'CDD (Contrat à Durée Déterminée)' :
+                                            type === 'Freelance' ? 'Freelance/Indépendant' : type}</span>
                                 </label>
                             ))}
                         </div>
@@ -120,10 +208,11 @@ export default function JobSearch() {
                     <div className="filter-group">
                         <label>Niveau d'expérience</label>
                         <div className="checkbox-list">
-                            {[' Débutant', ' Junior', ' Intermédiaire', ' Expérimenté', ' Senior', ' Expert'].map(level => (
+                            {['Débutant', 'Junior', 'Intermédiaire', 'Expérimenté', 'Senior', 'Expert'].map(level => (
                                 <label key={level} className="checkbox-item">
                                     <input
                                         type="checkbox"
+                                        checked={selectedExperienceLevels.includes(level)}
                                         onChange={(e) => handleCheckboxChange(e, 'experience', level)}
                                     />
                                     <span>{level}</span>
@@ -135,14 +224,15 @@ export default function JobSearch() {
                     {/* Publication Date */}
                     <div className="filter-group">
                         <label>Date de publication</label>
-                        <div className="filter-dropdown">
-                            <button className="dropdown-btn">
-                                Toutes les dates
-                                <svg className="dropdown-icon" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                                </svg>
-                            </button>
-                        </div>
+                        <select
+                            className="filter-input"
+                            value={selectedDate}
+                            onChange={(e) => setSelectedDate(e.target.value)}
+                        >
+                            {dateOptions.map(option => (
+                                <option key={option} value={option}>{option}</option>
+                            ))}
+                        </select>
                     </div>
 
                     {/* Action Buttons */}
@@ -150,6 +240,7 @@ export default function JobSearch() {
                         className="btn-search"
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
+                        onClick={() => { }} // Search is instant anyway
                     >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <circle cx="11" cy="11" r="8" />
@@ -157,12 +248,11 @@ export default function JobSearch() {
                         </svg>
                         Rechercher
                     </motion.button>
-                    <button className="btn-reset">Réinitialiser les filtres</button>
+                    <button className="btn-reset" onClick={handleReset}>Réinitialiser les filtres</button>
                 </motion.aside>
 
                 {/* Main Content */}
                 <main className="job-search-main">
-                    {/* Results Header */}
                     <motion.div
                         className="results-header"
                         initial={{ y: -20, opacity: 0 }}
@@ -170,17 +260,27 @@ export default function JobSearch() {
                         transition={{ duration: 0.5 }}
                     >
                         <div>
-                            <h1>Résultats de recherche</h1>
-                            <p className="results-count">{filteredJobs.length} offres d'emploi trouvées</p>
+                            <h1>{hasActiveFilters ? 'Résultats de recherche' : 'Dernières offres d\'emploi'}</h1>
+                            <p className="results-count">
+                                {hasActiveFilters
+                                    ? `${allFilteredJobs.length} offres d'emploi trouvées`
+                                    : 'Les 10 offres les plus récentes'}
+                            </p>
                         </div>
-                        <div className="results-sort">
-                            <label>Trier par:</label>
-                            <select className="sort-select">
-                                <option>Plus récentes</option>
-                                <option>Plus pertinentes</option>
-                                <option>Salaire décroissant</option>
-                            </select>
-                        </div>
+                        {hasActiveFilters && (
+                            <div className="results-sort">
+                                <label>Trier par:</label>
+                                <select
+                                    className="sort-select"
+                                    value={sortBy}
+                                    onChange={(e) => setSortBy(e.target.value)}
+                                >
+                                    <option>Plus récentes</option>
+                                    <option>Plus pertinentes</option>
+                                    <option>Salaire décroissant</option>
+                                </select>
+                            </div>
+                        )}
                     </motion.div>
 
                     {/* Job Listings */}
@@ -190,29 +290,36 @@ export default function JobSearch() {
                         initial="hidden"
                         animate="visible"
                     >
-                        {filteredJobs.map((job) => (
-                            <JobCard key={job.id} job={job} variant="list" />
-                        ))}
+                        {filteredJobs.length > 0 ? (
+                            filteredJobs.map((job) => (
+                                <JobCard key={job.id} job={job} variant="list" />
+                            ))
+                        ) : (
+                            <div className="no-results">
+                                <p>Aucune offre ne correspond à vos critères.</p>
+                            </div>
+                        )}
                     </motion.div>
 
-                    {/* Pagination */}
-                    <motion.div
-                        className="pagination"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.8 }}
-                    >
-                        <button className="page-btn" disabled>‹</button>
-                        <button className="page-btn active">1</button>
-                        <button className="page-btn">2</button>
-                        <button className="page-btn">3</button>
-                        <button className="page-btn">4</button>
-                        <button className="page-btn">5</button>
-                        <button className="page-btn">›</button>
-                        <button className="page-btn">»</button>
-                    </motion.div>
+                    {/* Loading/Sentinel for Infinite Scroll */}
+                    {visibleItems < allFilteredJobs.length && (
+                        <div ref={loaderRef} className="scroll-loader">
+                            {isLoadingMore && (
+                                <div className="spinner-container">
+                                    <div className="loading-spinner"></div>
+                                    <span>Chargement de plus d'offres...</span>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {visibleItems >= allFilteredJobs.length && allFilteredJobs.length > 0 && (
+                        <div className="end-of-list">
+                            <p>Vous avez vu toutes les offres correspondantes.</p>
+                        </div>
+                    )}
                 </main>
             </div>
-        </div>
+        </div >
     );
 }

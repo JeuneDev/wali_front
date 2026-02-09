@@ -8,6 +8,7 @@ export const jobs = [
         experience: 'Expérimenté (5-10 ans)',
         salary: '5 000 000 - 8 000 000 GNF',
         postedDays: 2,
+        industry: 'Informatique & Technologie',
         deadline: '15 janvier 2026',
         isUrgent: true,
         logo: 'https://ui-avatars.com/api/?name=Tech+Solutions&background=0D9488&color=fff',
@@ -17,52 +18,16 @@ export const jobs = [
             employees: '50-100 employés',
             founded: '2015',
             location: 'Conakry, Guinée',
-            description: "TechSolutions Guinée est une entreprise leader dans le développement de solutions technologiques innovantes. Nous accompagnons les entreprises guinéennes dans leur transformation digitale."
+            description: "TechSolutions Guinée est une entreprise leader dans le développement de solutions technologiques innovantes."
         },
-        description: "Nous recherchons un développeur full stack expérimenté pour rejoindre notre équipe dynamique et contribuer au développement de solutions innovantes pour nos clients guinéens et internationaux. En tant que Développeur Full Stack Senior, vous serez responsable de la conception, du développement et de la maintenance d'applications web modernes en utilisant les dernières technologies.",
-        responsibilities: [
-            "Développer des applications web complètes en utilisant React, Node.js et des bases de données relationnelles",
-            "Collaborer avec les équipes de design et de produit pour implémenter les fonctionnalités",
-            "Optimiser les performances des applications et assurer la qualité du code",
-            "Mentorer les développeurs juniors et participer aux revues de code",
-            "Maintenir et améliorer l'architecture technique existante"
-        ],
+        description: "Nous recherchons un développeur full stack expérimenté pour rejoindre notre équipe dynamique.",
+        responsibilities: ["Développer des applications web", "Collaborer avec les équipes design"],
         requirements: {
-            experience: '5 ans d\'expérience en développement web full stack',
-            education: 'Diplôme d\'ingénieur en informatique, Master en développement web ou équivalent',
-            hardSkills: ['React.js', 'Node.js', 'Java Spring Boot', 'TypeScript', 'PostgreSQL', 'MongoDB', 'REST APIs', 'Git'],
-            softSkills: [
-                "Excellentes capacités de communication en français et anglais",
-                "Esprit d'équipe et capacité à travailler en mode collaboratif",
-                "Autonomie et capacité à gérer plusieurs projets simultanément",
-                "Curiosité technique et veille technologique permanente"
-            ]
-        },
-        offerDetails: {
-            contract: 'CDI - Temps plein',
-            salary: '5 000 000 - 8 000 000 GNF/mois',
-            location: 'Conakry, Kaloum - Bureau moderne',
-            hours: 'Lun-Ven 8h-17h, Flexible possible'
-        },
-        benefits: [
-            "Assurance maladie complète pour l'employé et sa famille",
-            "Formation continue et certifications professionnelles payées",
-            "Primes de performance et bonus annuel",
-            "Transport d'entreprise ou allocation transport",
-            "Équipement informatique de qualité fourni"
-        ],
-        recruitmentProcess: [
-            { id: 1, title: 'Candidature en ligne', description: 'Soumission du CV et de la lettre de motivation' },
-            { id: 2, title: 'Entretien téléphonique', description: 'Discussion préliminaire avec les RH (15 min)' },
-            { id: 3, title: 'Test technique', description: 'Évaluation pratique des compétences de développement' },
-            { id: 4, title: 'Entretien final', description: 'Rencontre avec l\'équipe technique et le manager' }
-        ],
-        documentsRequired: [
-            "CV détaillé au format PDF",
-            "Lettre de motivation personnalisée",
-            "Portfolio ou liens vers vos projets GitHub",
-            "Copies des diplômes et certifications"
-        ]
+            experience: '5 ans',
+            education: 'Ingénieur',
+            hardSkills: ['React.js', 'Node.js'],
+            softSkills: ["Communication"]
+        }
     },
     {
         id: 2,
@@ -71,30 +36,11 @@ export const jobs = [
         location: 'Conakry, Matam',
         contractType: 'CDI',
         experience: 'Expérimenté',
-        description: 'Recherche d\'un comptable senior pour gérer la comptabilité de nos clients et superviser une équipe de juniors. Connaissance des normes OHADA requise. Excellentes compétences en gestion d\'équipe et communication.',
-        salary: '2 à 4 M GNF',
+        industry: 'Finance & Comptabilité',
+        description: 'Recherche d\'un comptable senior pour gérer la comptabilité de nos clients.',
+        salary: '2 000 000 - 4 000 000 GNF',
         postedDays: 3,
-        isUrgent: true,
-        fullDescription: `
-            <h3>Description du poste</h3>
-            <p>Notre cabinet recherche un Comptable Senior pour renforcer notre équipe d'audit et d'expertise comptable.</p>
-
-            <h3>Missions</h3>
-            <ul>
-                <li>Gestion d'un portefeuille clients diversifié.</li>
-                <li>Supervision de la tenue comptable et révision des comptes.</li>
-                <li>Établissement des déclarations fiscales et sociales.</li>
-                <li>Encadrement et formation des comptables juniors.</li>
-            </ul>
-
-            <h3>Profil recherché</h3>
-            <ul>
-                <li>Diplôme supérieur en Comptabilité/Gestion (Master CCA, DSCG...).</li>
-                <li>Minimum 4 ans d'expérience en cabinet comptable.</li>
-                <li>Maîtrise parfaite du référentiel OHADA.</li>
-                <li>Rigueur, organisation et sens du service client.</li>
-            </ul>
-        `
+        isUrgent: true
     },
     {
         id: 3,
@@ -103,11 +49,11 @@ export const jobs = [
         location: 'Conakry, Kaloum',
         contractType: 'CDI',
         experience: 'Intermédiaire',
-        description: 'Pilotez nos campagnes marketing digitales et développez nos stratégies d\'acquisition clients. Expérience en SEO/SEM et réseaux sociaux indispensable. Créativité et sens de l\'analyse requis.',
-        salary: '3 à 5 M GNF',
+        industry: 'Marketing & Communication',
+        description: 'Pilotez nos campagnes marketing digitales.',
+        salary: '3 000 000 - 5 000 000 GNF',
         postedDays: 1,
-        isUrgent: false,
-        fullDescription: "Description détaillée à venir..."
+        isUrgent: false
     },
     {
         id: 4,
@@ -116,11 +62,11 @@ export const jobs = [
         location: 'Boké',
         contractType: 'CDI',
         experience: 'Expérimenté',
-        description: 'Supervision des travaux de construction civile sur nos projets de construction. Connaissance du suivi des projets de construction minière souhaitée. Déplacements fréquents sur site.',
-        salary: '4 à 6 M GNF',
+        industry: 'Mines & Industrie',
+        description: 'Supervision des travaux de construction civile.',
+        salary: '4 000 000 - 6 000 000 GNF',
         postedDays: 4,
-        isUrgent: false,
-        fullDescription: "Description détaillée à venir..."
+        isUrgent: false
     },
     {
         id: 5,
@@ -129,11 +75,11 @@ export const jobs = [
         location: 'Conakry, Kaloum',
         contractType: 'CDI',
         experience: 'Expérimenté',
-        description: 'Gestion complète du RH : recrutement, formation, gestion des carrières et relations sociales. Expérience en RH en entreprise dans le secteur bancaire souhaitée. Leadership et diplomatie essentiels.',
-        salary: '3 à 5 M GNF',
+        industry: 'Ressources Humaines',
+        description: 'Gestion complète du RH.',
+        salary: '3 000 000 - 5 000 000 GNF',
         postedDays: 5,
-        isUrgent: false,
-        fullDescription: "Description détaillée à venir..."
+        isUrgent: false
     },
     {
         id: 6,
@@ -142,11 +88,11 @@ export const jobs = [
         location: 'Conakry, Ratoma',
         contractType: 'CDD',
         experience: 'Intermédiaire',
-        description: 'Consultation médicale générale, suivi des patients et coordination avec les spécialistes. Diplôme de médecine générale et expérience clinique requise. Excellentes compétences relationnelles.',
-        salary: '2 à 3 M GNF',
+        industry: 'Santé & Médical',
+        description: 'Consultation médicale générale.',
+        salary: '2 500 000 - 3 500 000 GNF',
         postedDays: 3,
-        isUrgent: false,
-        fullDescription: "Description détaillée à venir..."
+        isUrgent: false
     },
     {
         id: 7,
@@ -155,23 +101,179 @@ export const jobs = [
         location: 'Labé',
         contractType: 'CDD',
         experience: 'Débutant',
-        description: 'Support à l\'équipe commerciale, prospection client et suivi des ventes. Bonne maîtrise des outils bureautiques et sens du relationnel requis. Formation assurée en interne.',
-        salary: '1 à 2 M GNF',
-        postedDays: 2,
-        isUrgent: false,
-        fullDescription: "Description détaillée à venir..."
+        industry: 'Vente & Commerce',
+        description: 'Support à l\'équipe commerciale.',
+        salary: '1 500 000 - 2 500 000 GNF',
+        postedDays: 8,
+        isUrgent: false
     },
     {
         id: 8,
         title: 'Professeur de Mathématiques',
         company: 'Lycée Privé Excellence',
         location: 'Conakry, Dixinn',
+        contractType: 'CDD',
+        experience: 'Intermédiaire',
+        industry: 'Éducation',
+        description: 'Enseignement des mathématiques.',
+        salary: '1 200 000 - 2 000 000 GNF',
+        postedDays: 10,
+        isUrgent: false
+    },
+    {
+        id: 9,
+        title: 'Chauffeur Poids Lourd',
+        company: 'SOGUIPAH',
+        location: 'Nzérékoré',
+        contractType: 'CDI',
+        experience: 'Expérimenté',
+        industry: 'Logistique & Transport',
+        description: 'Transport de marchandises à travers la Guinée.',
+        salary: '1 800 000 - 2 500 000 GNF',
+        postedDays: 2,
+        isUrgent: true
+    },
+    {
+        id: 10,
+        title: 'Développeur Mobile Flutter',
+        company: 'Wali StartUp',
+        location: 'Conakry, Sonfonia',
+        contractType: 'Freelance',
+        experience: 'Junior',
+        industry: 'Informatique & Technologie',
+        description: 'Développement d\'une application de services locaux.',
+        salary: '2 000 000 - 3 500 000 GNF',
+        postedDays: 1,
+        isUrgent: false
+    },
+    {
+        id: 11,
+        title: 'Gestionnaire de Stock',
+        company: 'Top Supermarché',
+        location: 'Conakry, Matoto',
+        contractType: 'CDD',
+        experience: 'Débutant',
+        industry: 'Vente & Commerce',
+        description: 'Suivi des entrées et sorties de marchandises.',
+        salary: '1 300 000 - 1 800 000 GNF',
+        postedDays: 6,
+        isUrgent: false
+    },
+    {
+        id: 12,
+        title: 'Infirmier d\'État',
+        company: 'Hôpital Donka',
+        location: 'Conakry, Dixinn',
         contractType: 'CDI',
         experience: 'Intermédiaire',
-        description: 'Enseignement des mathématiques aux élèves du lycée. Licence en mathématiques et expérience pédagogique souhaitée. Passion pour l\'enseignement et pédagogie moderne.',
-        salary: '1 à 2 M GNF',
-        postedDays: 6,
-        isUrgent: false,
-        fullDescription: "Description détaillée à venir..."
+        industry: 'Santé & Médical',
+        description: 'Soins infirmiers et suivi patient.',
+        salary: '1 800 000 - 2 800 000 GNF',
+        postedDays: 12,
+        isUrgent: false
+    },
+    {
+        id: 13,
+        title: 'Agent de Sécurité',
+        company: 'Guinée Security',
+        location: 'Conakry, Kipé',
+        contractType: 'CDI',
+        experience: 'Débutant',
+        industry: 'Sécurité',
+        description: 'Surveillance et protection de sites bancaires.',
+        salary: '1 000 000 - 1 500 000 GNF',
+        postedDays: 15,
+        isUrgent: false
+    },
+    {
+        id: 14,
+        title: 'Community Manager',
+        company: 'Agence Digit Guinee',
+        location: 'Conakry, Nongo',
+        contractType: 'CDD',
+        experience: 'Junior',
+        industry: 'Marketing & Communication',
+        description: 'Gestion des réseaux sociaux et animation de communauté.',
+        salary: '1 500 000 - 2 200 000 GNF',
+        postedDays: 4,
+        isUrgent: false
+    },
+    {
+        id: 15,
+        title: 'Électricien Bâtiment',
+        company: 'BTP Service Guinée',
+        location: 'Kankan',
+        contractType: 'CDI',
+        experience: 'Expérimenté',
+        industry: 'BTP & Construction',
+        description: 'Installation électrique complète pour nouveaux bâtiments.',
+        salary: '2 000 000 - 3 000 000 GNF',
+        postedDays: 7,
+        isUrgent: false
+    },
+    {
+        id: 16,
+        title: 'Conseiller Clientèle Bancaire',
+        company: 'Ecobank Guinée',
+        location: 'Conakry, Kaloum',
+        contractType: 'CDI',
+        experience: 'Intermédiaire',
+        industry: 'Banque & Assurance',
+        description: 'Accompagnement des clients dans leurs produits bancaires.',
+        salary: '3 500 000 - 5 500 000 GNF',
+        postedDays: 3,
+        isUrgent: false
+    },
+    {
+        id: 17,
+        title: 'Développeur Frontend React',
+        company: 'AfriCode',
+        location: 'Conakry, Lambanyi',
+        contractType: 'CDI',
+        experience: 'Junior',
+        industry: 'Informatique & Technologie',
+        description: 'Création d\'interfaces modernes pour clients locaux.',
+        salary: '2 500 000 - 4 000 000 GNF',
+        postedDays: 0,
+        isUrgent: true
+    },
+    {
+        id: 18,
+        title: 'Réceptionniste Hôtel',
+        company: 'Noom Hotel',
+        location: 'Conakry, Kaloum',
+        contractType: 'CDD',
+        experience: 'Junior',
+        industry: 'Hôtellerie & Tourisme',
+        description: 'Accueil et gestion des réservations clients.',
+        salary: '1 800 000 - 2 500 000 GNF',
+        postedDays: 5,
+        isUrgent: false
+    },
+    {
+        id: 19,
+        title: 'Technicien Agronome',
+        company: 'BioGuinee',
+        location: 'Mamou',
+        contractType: 'CDI',
+        experience: 'Intermédiaire',
+        industry: 'Agriculture',
+        description: 'Suivi technique des plantations maraîchères.',
+        salary: '2 200 000 - 3 500 000 GNF',
+        postedDays: 9,
+        isUrgent: false
+    },
+    {
+        id: 20,
+        title: 'Vendeuse en Boutique',
+        company: 'Fashion Guinée',
+        location: 'Conakry, Madina',
+        contractType: 'Stage',
+        experience: 'Débutant',
+        industry: 'Vente & Commerce',
+        description: 'Accueil client et conseil en prêt-à-porter.',
+        salary: '500 000 - 800 000 GNF',
+        postedDays: 1,
+        isUrgent: false
     }
 ];
