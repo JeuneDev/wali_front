@@ -78,7 +78,7 @@
 .btn--text {
     background-color: transparent;
     color: var(--color-primary);
-    padding: 8px 12px;
+    min-width: auto;
 }
 
 .btn--text:hover:not(:disabled) {

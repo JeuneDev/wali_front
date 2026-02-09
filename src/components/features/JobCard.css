@@ -1,5 +1,6 @@
 /* JobCard Component Styles */
 
+/* Base Card Styles */
 .job-card {
     display: flex;
     flex-direction: column;
@@ -10,38 +11,41 @@
 
 .job-card:hover {
     transform: translateY(-4px);
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 12px rgba(13, 148, 136, 0.15);
 }
 
-.job-card-header {
+/* ========== GRID Variant (Default) ========== */
+.job-card-grid .job-card-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     gap: var(--spacing-md);
 }
 
-.job-card-info {
+.job-card-grid .job-card-info {
     flex: 1;
 }
 
-.job-title {
+.job-card-grid .job-title {
     font-size: var(--font-size-h4);
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-primary);
     margin-bottom: var(--spacing-xs);
 }
 
-.job-company {
+.job-card-grid .job-company {
     font-size: var(--font-size-body);
     color: var(--color-text-secondary);
 }
 
-.job-card-details {
+.job-card-grid .job-card-details {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-md);
 }
 
-.job-detail-item {
+.job-card-grid .job-detail-item {
     display: flex;
     align-items: center;
     gap: var(--spacing-xs);
@@ -49,11 +53,11 @@
     color: var(--color-text-secondary);
 }
 
-.job-detail-item svg {
+.job-card-grid .job-detail-item svg {
     flex-shrink: 0;
 }
 
-.job-card-footer {
+.job-card-grid .job-card-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -61,7 +65,155 @@
     border-top: 1px solid var(--color-border);
 }
 
-.job-time {
+.job-card-grid .job-time {
     font-size: var(--font-size-body-sm);
     color: var(--color-text-secondary);
+}
+
+/* ========== LIST Variant (Job Search) ========== */
+.job-card-list {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 20px 24px;
+    transition: all 0.2s;
+    gap: 0;
+    /* Reset gap for list variant specifics */
+}
+
+/* List variant overrides base hover if needed, but base hover is fine */
+.job-card-list:hover {
+    transform: none;
+    /* List view might want different transform behavior */
+    transform: translateY(-2px);
+}
+
+.job-card-list .job-header {
+    margin-bottom: 12px;
+}
+
+.job-card-list .job-header>div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+}
+
+.job-card-list .job-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #0d9488;
+    margin: 0;
+    cursor: pointer;
+}
+
+.job-card-list .job-title:hover {
+    text-decoration: underline;
+}
+
+.job-card-list .badge-urgent {
+    display: inline-block;
+    padding: 3px 10px;
+    background: #0d9488;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 12px;
+    text-transform: capitalize;
+    letter-spacing: 0.2px;
+}
+
+.job-card-list .job-company {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1f2937;
+    margin: 0;
+}
+
+.job-card-list .job-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.job-card-list .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.job-card-list .meta-item svg {
+    color: #0d9488;
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+}
+
+.job-card-list .badge-contract,
+.job-card-list .badge-experience {
+    padding: 3px 10px;
+    background: #f3f4f6;
+    color: #6b7280;
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.job-card-list .job-description {
+    font-size: 14px;
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 14px;
+}
+
+.job-card-list .job-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding-top: 14px;
+    border-top: 1px solid #e5e7eb;
+    flex-wrap: wrap;
+}
+
+.job-card-list .job-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.job-card-list .job-salary {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
+}
+
+.job-card-list .job-posted {
+    font-size: 12px;
+    color: #9ca3af;
+    margin: 0;
+}
+
+.job-card-list .btn-details {
+    padding: 10px 20px;
+    background: #0d9488;
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.job-card-list .btn-details:hover {
+    background: #0f766e;
 }

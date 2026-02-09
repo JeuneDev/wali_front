@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import './Input.css';
 
 export default function Input({
@@ -6,13 +7,14 @@ export default function Input({
     value,
     onChange,
     error = '',
-    label = '',
+    label,
     id,
     className = '',
     icon,
     ...props
 }) {
-    const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
+    const generatedId = useId();
+    const inputId = id || generatedId;
 
     return (
         <div className={`input-wrapper ${className}`}>

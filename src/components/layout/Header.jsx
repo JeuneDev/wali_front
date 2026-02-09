@@ -38,7 +38,7 @@ export default function Header() {
 
                     {/* Navigation */}
                     <nav className={`nav ${isMenuOpen ? 'nav-open' : ''}`}>
-                        <Link to="/" className="nav-link" onClick={closeMenu}>
+                        <Link to="/recherche" className="nav-link" onClick={closeMenu}>
                             Rechercher des offres
                         </Link>
                         <Link to="/entreprises" className="nav-link" onClick={closeMenu}>

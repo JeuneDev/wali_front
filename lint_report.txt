@@ -1,0 +1,35 @@
+﻿
+> wali@0.0.0 lint
+> eslint .
+
+
+D:\wali\wali_front\wali\src\components\common\Input.jsx
+  15:36  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+  13 |     ...props
+  14 | }) {
+> 15 |     const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
+     |                                    ^^^^^^^^^^^^^ Cannot call impure function
+  16 |
+  17 |     return (
+  18 |         <div className={`input-wrapper ${className}`}>  react-hooks/purity
+
+D:\wali\wali_front\wali\src\components\features\JobCard.jsx
+  1:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+D:\wali\wali_front\wali\src\pages\Home.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+D:\wali\wali_front\wali\src\pages\JobDetails.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+D:\wali\wali_front\wali\src\pages\JobSearch.jsx
+   2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                   no-unused-vars
+  11:12  error  'currentPage' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u     no-unused-vars
+  11:25  error  'setCurrentPage' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  52:11  error  'itemVariants' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u    no-unused-vars
+
+Γ£û 8 problems (8 errors, 0 warnings)
+

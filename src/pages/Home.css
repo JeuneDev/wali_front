@@ -1,35 +1,220 @@
 /* Home Page Styles */
 
 /* Hero Section */
+/* Hero Section */
 .hero {
-    background: linear-gradient(135deg, rgba(11, 122, 117, 0.05) 0%, rgba(92, 123, 137, 0.05) 100%);
-    padding: var(--spacing-3xl) 0;
-    text-align: center;
+    background: linear-gradient(135deg, rgba(11, 122, 117, 0.03) 0%, rgba(92, 123, 137, 0.03) 100%);
+    padding: 80px 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.hero-content {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 64px;
+    align-items: center;
+}
+
+.hero-text {
+    text-align: left;
+    z-index: 2;
 }
 
 .hero-title {
-    font-size: var(--font-size-hero);
-    font-weight: var(--font-weight-bold);
-    letter-spacing: var(--letter-spacing-hero);
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
     color: var(--color-text-primary);
-    margin-bottom: var(--spacing-md);
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-bottom: 24px;
+    line-height: 1.1;
+    min-height: 110px;
+    /* Prevent layout shift from typewriter */
+}
+
+.hero-title .Typewriter__cursor {
+    color: var(--color-primary);
 }
 
 .hero-subtitle {
-    font-size: var(--font-size-body-lg);
+    font-size: 18px;
+    line-height: 1.6;
     color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-2xl);
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-bottom: 40px;
+    max-width: 540px;
 }
 
-.hero-search {
-    max-width: 900px;
-    margin: 0 auto;
+.hero-search-wrapper {
+    margin-bottom: 48px;
+    /* Wrapper handles positioning, inner search-bar handles look */
+}
+
+.hero-search-wrapper .search-bar {
+    background: white;
+    padding: 10px;
+    /* More standard padding */
+    border-radius: 8px;
+    /* Standard rounded corners, not pill */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    /* Slightly stronger shadow for visibility */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.hero-search-wrapper .input-icon {
+    display: flex;
+    /* Show icons again for intuition */
+    color: var(--color-primary);
+    /* Make them brand visible */
+}
+
+.hero-search-wrapper .input {
+    padding-left: 40px !important;
+    /* Make room for icon */
+}
+
+/* Stronger divider */
+.hero-search-wrapper .search-input-wrapper:not(:last-child) {
+    border-right: 1px solid #e2e8f0;
+    /* Visible grey divider */
+    padding-right: 16px;
+    margin-right: 16px;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 48px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 32px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-number {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.stat-label {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}
+
+/* Hero Image & Decorations */
+.hero-image-container {
+    position: relative;
+    height: 750px;
+    /* Increased from 600px for better visibility on PC */
+    /* Default for large screens */
+    max-height: 85vh;
+    /* Don't take up too much height on short screens */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-blob {
+    position: absolute;
+    width: 100%;
+    max-width: 700px;
+    height: 100%;
+    background: radial-gradient(circle, rgba(13, 148, 136, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.hero-img {
+    position: relative;
+    z-index: 1;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1));
+}
+
+/* Hero Image Wrapper for Alternation */
+.hero-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-img-wrapper .hero-img {
+    will-change: opacity, transform;
+}
+
+
+/* Floating Cards */
+.floating-card {
+    position: absolute;
+    background: white;
+    padding: 12px 16px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 3;
+    min-width: 200px;
+}
+
+.card-success {
+    top: 20%;
+    left: -20px;
+}
+
+.card-profile {
+    bottom: 25%;
+    right: 0;
+}
+
+.icon-success,
+.icon-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-success {
+    background: #ecfdf5;
+    color: #10b981;
+}
+
+.icon-profile {
+    background: #eff6ff;
+    color: #3b82f6;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.card-subtitle {
+    font-size: 12px;
+    color: #64748b;
 }
 
 /* Sections */
@@ -124,16 +309,139 @@
         grid-template-columns: repeat(3, 1fr);
     }
 
+    /* Hero Responsive - Side-by-side on tablet */
+
     .hero-title {
         font-size: 40px;
     }
 
     .hero-subtitle {
-        font-size: 15px;
+        font-size: 16px;
+    }
+
+    .hero-content {
+        gap: 32px;
+        /* Reduce gap for tablet but keep side-by-side */
+    }
+
+    .hero-image-container {
+        height: 450px;
+        /* Sizing for tablet */
     }
 }
 
 @media (max-width: 768px) {
+    .hero-image-container {
+        height: 380px;
+        /* Taller on mobile for better impact */
+        /* Smaller height for mobile */
+        margin-top: 32px;
+    }
+
+    .floating-card {
+        padding: 8px 12px;
+        min-width: auto;
+        gap: 8px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        /* Pop more on mobile */
+    }
+
+    .icon-success,
+    .icon-profile {
+        width: 36px;
+        /* Slightly larger than before */
+        height: 36px;
+    }
+
+    .card-title {
+        font-size: 13px;
+    }
+
+    .card-subtitle {
+        font-size: 11px;
+    }
+
+    /* Adjust card positions for smaller image */
+    .card-success {
+        top: 5%;
+        left: -10px;
+    }
+
+    .card-profile {
+        bottom: 10%;
+        right: -5px;
+    }
+
+    .hero-search-wrapper .search-bar {
+        border-radius: 16px;
+        /* Smoother radius on mobile */
+        padding: 20px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        background: #ffffff;
+        box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+        /* Stronger shadow/depth */
+        border: 1px solid rgba(0, 0, 0, 0.03);
+        /* Subtle border for definition */
+    }
+
+    .hero-search-wrapper .search-input-wrapper {
+        width: 100%;
+    }
+
+    .hero-search-wrapper .search-input-wrapper:not(:last-child) {
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+        margin-bottom: 12px;
+        padding-bottom: 12px;
+        margin-right: 0;
+        padding-right: 0;
+    }
+
+    .hero-search-wrapper .btn {
+        width: 100%;
+        margin-top: 8px;
+        justify-content: center;
+        height: 48px;
+        /* Taller button for touch targets */
+    }
+
+    .hero-content {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        /* Reduced gap for mobile */
+        text-align: center;
+    }
+
+    .hero-text {
+        text-align: center;
+        order: 2;
+        /* Text comes after image */
+    }
+
+    .hero-stats {
+        justify-content: center;
+        order: 4;
+        /* Stats come last */
+    }
+
+    .hero-search-wrapper {
+        order: 3;
+        /* Search form comes after text, before stats */
+    }
+
+    .hero-image-container {
+        order: 1;
+        /* Image comes first */
+        height: 300px;
+        /* Reduced height for mobile */
+        margin-top: 0;
+        /* Remove top margin since it's first now */
+        margin-bottom: 16px;
+        justify-content: center;
+    }
+
     .hero {
         padding: var(--spacing-2xl) 0;
     }
@@ -196,12 +504,24 @@
 }
 
 @media (max-width: 480px) {
+    .hero-image-container {
+        height: 280px;
+        /* Even smaller for phones */
+    }
+
+    .floating-card {
+        transform: scale(0.9);
+        /* Scale down cards slightly */
+        transform-origin: center;
+    }
+
     .hero {
         padding: var(--spacing-xl) 0;
     }
 
     .hero-title {
-        font-size: 26px;
+        font-size: 28px;
+        /* Slightly larger than 26px for better impact */
     }
 
     .hero-subtitle {

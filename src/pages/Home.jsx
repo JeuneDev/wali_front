@@ -1,13 +1,22 @@
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import SearchBar from '../components/features/SearchBar';
 import CategoryCard from '../components/features/CategoryCard';
 import JobCard from '../components/features/JobCard';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import Typewriter from 'typewriter-effect';
+import heroImage from '../assets/hero_image.png';
+import recruiterHeroImage from '../assets/hero_recruteur.png';
 import './Home.css';
 
 export default function Home() {
+    // State for managing image alternation
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const heroImages = [heroImage, recruiterHeroImage];
+
+
     // Mock data for categories
     const categories = [
         {
@@ -191,12 +200,27 @@ export default function Home() {
     };
 
     const heroVariants = {
-        hidden: { opacity: 0, y: -20 },
+        hidden: { opacity: 0, y: 20 },
         visible: {
             opacity: 1,
             y: 0,
-            transition: { duration: 0.6, ease: "easeOut" }
+            transition: {
+                duration: 0.8,
+                ease: [0.22, 1, 0.36, 1] // Custom cubic bezier for smooth "pro" feel
+            }
         }
+    };
+
+    const floatingCardVariants = {
+        animate: (custom) => ({
+            y: [0, -15, 0],
+            transition: {
+                duration: custom?.duration || 4,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: custom?.delay || 0
+            }
+        })
     };
 
     const handleSearch = (searchData) => {
@@ -207,40 +231,221 @@ export default function Home() {
     return (
         <div className="home">
             {/* Hero Section */}
-            <motion.section
-                className="hero"
-                initial="hidden"
-                animate="visible"
-                variants={containerVariants}
-            >
+            <section className="hero">
                 <div className="container">
-                    <h1 className="hero-title">
-                        <Typewriter
-                            options={{
-                                strings: ['Trouvez l\'emploi de vos rêves en Guinée'],
-                                autoStart: true,
-                                loop: true,
-                                delay: 50,
-                                deleteSpeed: 30,
-                                pauseFor: 3000,
-                            }}
-                        />
-                    </h1>
-                    <motion.p className="hero-subtitle" variants={heroVariants}>
-                        Connectez-vous avec les meilleures opportunités d'emploi et donnez un nouvel élan à votre carrière
-                    </motion.p>
-                    <motion.div className="hero-search" variants={heroVariants}>
-                        <SearchBar onSearch={handleSearch} />
-                    </motion.div>
+                    <div className="hero-content">
+                        <motion.div
+                            className="hero-text"
+                            initial="hidden"
+                            animate="visible"
+                            variants={containerVariants}
+                        >
+                            <h1 className="hero-title">
+                                <Typewriter
+                                    options={{
+                                        autoStart: true,
+                                        loop: true,
+                                        delay: 50,
+                                        deleteSpeed: 30,
+                                    }}
+                                    onInit={(typewriter) => {
+                                        typewriter
+                                            .typeString('Trouvez l\'emploi de vos rêves en Guinée')
+                                            .pauseFor(4000)
+                                            .deleteAll()
+                                            .callFunction(() => {
+                                                setCurrentImageIndex(1);
+                                            })
+                                            .typeString('Recrutez les meilleurs talents')
+                                            .pauseFor(4000)
+                                            .deleteAll()
+                                            .callFunction(() => {
+                                                setCurrentImageIndex(0);
+                                            })
+                                            .start();
+                                    }}
+                                />
+                            </h1>
+                            <motion.p className="hero-subtitle" variants={heroVariants}>
+                                Connectez-vous avec les meilleures opportunités d'emploi et donnez un nouvel élan à votre carrière. Une plateforme moderne pour l'avenir du travail en Guinée.
+                            </motion.p>
+                            <motion.div className="hero-search-wrapper" variants={heroVariants}>
+                                <SearchBar onSearch={handleSearch} />
+                            </motion.div>
+
+                            <motion.div className="hero-stats" variants={heroVariants}>
+                                <div className="stat-item">
+                                    <span className="stat-number">500+</span>
+                                    <span className="stat-label">Offres actives</span>
+                                </div>
+                                <div className="stat-item">
+                                    <span className="stat-number">2k+</span>
+                                    <span className="stat-label">Entreprises</span>
+                                </div>
+                                <div className="stat-item">
+                                    <span className="stat-number">10k+</span>
+                                    <span className="stat-label">Candidats</span>
+                                </div>
+                            </motion.div>
+                        </motion.div>
+
+                        <motion.div
+                            className="hero-image-container"
+                            initial={{ opacity: 0, x: 50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                        >
+                            <div className="hero-blob"></div>
+
+                            {/* Animated alternating images */}
+                            <div className="hero-img-wrapper">
+                                <AnimatePresence mode="wait">
+                                    <motion.img
+                                        key={currentImageIndex}
+                                        src={heroImages[currentImageIndex]}
+                                        alt={currentImageIndex === 0 ? "Candidat heureux trouvant un emploi" : "Recruteur professionnel"}
+                                        className="hero-img"
+                                        initial={{ opacity: 0, scale: 0.95 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.95 }}
+                                        transition={{
+                                            duration: 0.6,
+                                            ease: [0.22, 1, 0.36, 1]
+                                        }}
+                                    />
+                                </AnimatePresence>
+                            </div>
+
+
+                            {/* Floating Cards Animation - Context Aware */}
+                            <AnimatePresence mode="wait">
+                                {currentImageIndex === 0 ? (
+                                    // Talent context cards
+                                    <motion.div key="talent-cards">
+                                        <motion.div
+                                            key="talent-success"
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -20 }}
+                                            transition={{ duration: 0.4 }}
+                                        >
+                                            <motion.div
+                                                className="floating-card card-success"
+                                                variants={floatingCardVariants}
+                                                animate="animate"
+                                                custom={{ duration: 4, delay: 0 }}
+                                            >
+                                                <div className="icon-success">
+                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                                                        <polyline points="20 6 9 17 4 12" />
+                                                    </svg>
+                                                </div>
+                                                <div className="card-content">
+                                                    <span className="card-title">Candidature acceptée</span>
+                                                    <span className="card-subtitle">Il y a 2 min</span>
+                                                </div>
+                                            </motion.div>
+                                        </motion.div>
+
+                                        <motion.div
+                                            key="talent-profile"
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -20 }}
+                                            transition={{ duration: 0.4, delay: 0.1 }}
+                                        >
+                                            <motion.div
+                                                className="floating-card card-profile"
+                                                variants={floatingCardVariants}
+                                                animate="animate"
+                                                custom={{ duration: 5, delay: 1.5 }}
+                                            >
+                                                <div className="icon-profile">
+                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                                        <circle cx="12" cy="7" r="4" />
+                                                    </svg>
+                                                </div>
+                                                <div className="card-content">
+                                                    <span className="card-title">Profil complété</span>
+                                                    <span className="card-subtitle">100%</span>
+                                                </div>
+                                            </motion.div>
+                                        </motion.div>
+                                    </motion.div>
+                                ) : (
+                                    // Recruiter context cards
+                                    <motion.div key="recruiter-cards">
+                                        <motion.div
+                                            key="recruiter-applicants"
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -20 }}
+                                            transition={{ duration: 0.4 }}
+                                        >
+                                            <motion.div
+                                                className="floating-card card-success"
+                                                variants={floatingCardVariants}
+                                                animate="animate"
+                                                custom={{ duration: 4, delay: 0 }}
+                                            >
+                                                <div className="icon-success">
+                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                                        <circle cx="9" cy="7" r="4" />
+                                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                                    </svg>
+                                                </div>
+                                                <div className="card-content">
+                                                    <span className="card-title">5 candidats ont postulé</span>
+                                                    <span className="card-subtitle">Aujourd'hui</span>
+                                                </div>
+                                            </motion.div>
+                                        </motion.div>
+
+                                        <motion.div
+                                            key="recruiter-views"
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -20 }}
+                                            transition={{ duration: 0.4, delay: 0.1 }}
+                                        >
+                                            <motion.div
+                                                className="floating-card card-profile"
+                                                variants={floatingCardVariants}
+                                                animate="animate"
+                                                custom={{ duration: 5, delay: 1.5 }}
+                                            >
+                                                <div className="icon-profile">
+                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                                        <circle cx="12" cy="12" r="3" />
+                                                    </svg>
+                                                </div>
+                                                <div className="card-content">
+                                                    <span className="card-title">10 vues de votre offre</span>
+                                                    <span className="card-subtitle">Cette semaine</span>
+                                                </div>
+                                            </motion.div>
+                                        </motion.div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
+                        </motion.div>
+                    </div>
                 </div>
-            </motion.section>
+            </section>
 
             {/* Recent Jobs Section */}
             <section className="section">
                 <div className="container">
                     <div className="section-header">
                         <h2 className="section-title">Dernières offres publiées</h2>
-                        <Button variant="text">Voir toutes les offres →</Button>
+                        <Link to="/recherche">
+                            <Button variant="text">Voir toutes les offres →</Button>
+                        </Link>
                     </div>
                     <motion.div
                         className="jobs-grid"
