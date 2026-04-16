@@ -106,6 +106,7 @@ export const mockCandidatures = [
     status: "En cours d'examen",
     lastUpdate: 'Il y a 2 jours',
     jobId: 1,
+    matchScore: 92,
   },
   {
     id: 'ca2',
@@ -116,6 +117,7 @@ export const mockCandidatures = [
     status: 'Vue',
     lastUpdate: 'Il y a 4 jours',
     jobId: 2,
+    matchScore: 67,
   },
   {
     id: 'ca3',
@@ -126,6 +128,7 @@ export const mockCandidatures = [
     status: 'Envoyée',
     lastUpdate: 'Il y a 6 jours',
     jobId: 3,
+    matchScore: 74,
   },
   {
     id: 'ca4',
@@ -136,6 +139,7 @@ export const mockCandidatures = [
     status: 'Rejetée',
     lastUpdate: 'Il y a 9 jours',
     jobId: 4,
+    matchScore: 81,
   },
   {
     id: 'ca5',
@@ -146,6 +150,7 @@ export const mockCandidatures = [
     status: 'Acceptée',
     lastUpdate: 'Il y a 13 jours',
     jobId: 5,
+    matchScore: 88,
   },
 ];
 
@@ -1057,4 +1062,196 @@ export const mockFavoriteJobs = [
     tags: ['Flutter', 'Firebase', '2+ ans'],
   },
 ];
+
+// ──────────────────────────────────────────────
+// MATCH SCORES (IA) — candidats pour recherche recruteur
+// ──────────────────────────────────────────────
+export const mockMatchScores = {
+  cs1: 95, cs2: 88, cs3: 82, cs4: 76, cs5: 91,
+  cs6: 68, cs7: 73, cs8: 85, cs9: 62, cs10: 79,
+  cs11: 81, cs12: 65, cs13: 72, cs14: 77, cs15: 86, cs16: 70,
+};
+
+// ──────────────────────────────────────────────
+// ANALYTICS RECRUTEUR
+// ──────────────────────────────────────────────
+export const mockAnalyticsRecruteur = {
+  kpis: {
+    activeOffers:    { value: 7,   trend: +2,   label: 'Offres actives',      suffix: '' },
+    responseRate:    { value: 78,  trend: +5,   label: 'Taux de réponse',     suffix: '%' },
+    avgTimeToHire:   { value: 14,  trend: -2,   label: "Délai moyen d'embauche", suffix: ' j' },
+    qualityScore:    { value: 4.2, trend: +0.3, label: 'Qualité candidatures', suffix: '/5' },
+  },
+  applicationsWeekly: [
+    { day: 'Lun', count: 8  },
+    { day: 'Mar', count: 12 },
+    { day: 'Mer', count: 6  },
+    { day: 'Jeu', count: 15 },
+    { day: 'Ven', count: 18 },
+    { day: 'Sam', count: 4  },
+    { day: 'Dim', count: 3  },
+  ],
+  statusDistribution: [
+    { label: 'Nouvelle',       count: 23, cls: 'analytics-bar--primary' },
+    { label: 'Vue',            count: 18, cls: 'analytics-bar--blue' },
+    { label: 'Présélectionnée',count: 8,  cls: 'analytics-bar--green' },
+    { label: 'Rejetée',        count: 12, cls: 'analytics-bar--red' },
+    { label: 'Acceptée',       count: 4,  cls: 'analytics-bar--teal' },
+  ],
+  topOffers: [
+    { id: 1, title: 'Développeur Full Stack Senior', applications: 23, conversionRate: 35, views: 156 },
+    { id: 3, title: 'Analyste Financier Junior',     applications: 31, conversionRate: 42, views: 201 },
+    { id: 2, title: 'Chef de Projet Marketing',      applications: 15, conversionRate: 28, views: 98  },
+  ],
+  timeToHireTrend: [
+    { month: 'Sept', days: 22 },
+    { month: 'Oct',  days: 18 },
+    { month: 'Nov',  days: 16 },
+    { month: 'Déc',  days: 14 },
+  ],
+  sourcesTraffic: [
+    { source: 'Recherche directe', percent: 42 },
+    { source: 'Recommandations IA', percent: 31 },
+    { source: 'Favoris', percent: 15 },
+    { source: 'Partage lien', percent: 12 },
+  ],
+};
+
+// ──────────────────────────────────────────────
+// TESTS DE COMPÉTENCES
+// ──────────────────────────────────────────────
+export const mockCompetenceTests = [
+  {
+    id: 't1', title: 'JavaScript Avancé', category: 'Frontend',
+    duration: 30, questions: 20, difficulty: 'Intermédiaire',
+    status: 'passed', score: 85, badge: 'gold',
+    description: 'Closures, promises, async/await, ES6+ et patterns avancés',
+  },
+  {
+    id: 't2', title: 'React.js', category: 'Frontend',
+    duration: 25, questions: 15, difficulty: 'Avancé',
+    status: 'passed', score: 92, badge: 'gold',
+    description: 'Hooks, context, performance, patterns de composition',
+  },
+  {
+    id: 't3', title: 'Node.js & Express', category: 'Backend',
+    duration: 30, questions: 18, difficulty: 'Intermédiaire',
+    status: 'passed', score: 78, badge: 'silver',
+    description: 'API REST, middleware, authentification, sécurité',
+  },
+  {
+    id: 't4', title: 'SQL & Bases de données', category: 'Backend',
+    duration: 25, questions: 20, difficulty: 'Intermédiaire',
+    status: 'available',
+    description: 'Requêtes complexes, jointures, index, optimisation',
+  },
+  {
+    id: 't5', title: 'TypeScript', category: 'Frontend',
+    duration: 20, questions: 15, difficulty: 'Avancé',
+    status: 'available',
+    description: 'Types avancés, génériques, utility types, type guards',
+  },
+  {
+    id: 't6', title: 'Communication professionnelle', category: 'Soft Skills',
+    duration: 15, questions: 10, difficulty: 'Débutant',
+    status: 'passed', score: 90, badge: 'gold',
+    description: 'Communication écrite, orale, gestion des désaccords',
+  },
+  {
+    id: 't7', title: 'Leadership d\'équipe', category: 'Soft Skills',
+    duration: 15, questions: 12, difficulty: 'Intermédiaire',
+    status: 'available',
+    description: 'Management, motivation, délégation, feedback',
+  },
+  {
+    id: 't8', title: 'Docker & DevOps', category: 'DevOps',
+    duration: 30, questions: 20, difficulty: 'Avancé',
+    status: 'available',
+    description: 'Containerisation, orchestration, CI/CD',
+  },
+  {
+    id: 't9', title: 'Résolution de problèmes', category: 'Soft Skills',
+    duration: 20, questions: 15, difficulty: 'Intermédiaire',
+    status: 'in-progress', progress: 60,
+    description: 'Analyse, prise de décision, créativité',
+  },
+];
+
+// ──────────────────────────────────────────────
+// TIMELINE CANDIDATURE (vue recruteur)
+// ──────────────────────────────────────────────
+export const mockCandidatureTimeline = [
+  {
+    id: 'tl1',
+    type: 'applied',
+    icon: 'send',
+    title: 'Candidature reçue',
+    description: 'Le candidat a postulé à l\'offre',
+    date: '13 déc. 2024',
+    time: '14:32',
+  },
+  {
+    id: 'tl2',
+    type: 'viewed',
+    icon: 'eye',
+    title: 'Profil consulté',
+    description: 'Vous avez consulté le profil pour la première fois',
+    date: '13 déc. 2024',
+    time: '16:08',
+    actor: 'Vous',
+  },
+  {
+    id: 'tl3',
+    type: 'note',
+    icon: 'note',
+    title: 'Note ajoutée',
+    description: '"Profil très intéressant, correspond bien à nos besoins"',
+    date: '14 déc. 2024',
+    time: '09:15',
+    actor: 'Sarah Camara',
+  },
+  {
+    id: 'tl4',
+    type: 'status',
+    icon: 'check',
+    title: 'Statut mis à jour : Présélectionnée',
+    description: 'Le candidat a été ajouté à la shortlist',
+    date: '14 déc. 2024',
+    time: '10:20',
+    actor: 'Sarah Camara',
+  },
+  {
+    id: 'tl5',
+    type: 'message',
+    icon: 'message',
+    title: 'Premier contact',
+    description: 'Message envoyé pour proposer un entretien',
+    date: '15 déc. 2024',
+    time: '11:45',
+    actor: 'Sarah Camara',
+  },
+];
+
+// Notes internes initiales (vue recruteur)
+export const mockRecruiterNotes = [
+  {
+    id: 'note1',
+    author: 'Sarah Camara',
+    authorRole: 'Recruteuse principale',
+    avatar: 'https://ui-avatars.com/api/?name=Sarah+Camara&background=0B7A75&color=fff&size=48',
+    content: 'Très bon profil technique, 6 ans d\'expérience en React/Node.js. A dirigé une équipe de 3 développeurs chez TechSolutions. À voir pour un entretien technique.',
+    date: '14 déc. 2024',
+    time: '09:15',
+  },
+  {
+    id: 'note2',
+    author: 'Mamadou Sylla',
+    authorRole: 'Tech Lead',
+    avatar: 'https://ui-avatars.com/api/?name=Mamadou+Sylla&background=D97706&color=fff&size=48',
+    content: 'J\'ai regardé son GitHub, le code est propre. Bon candidat pour le poste senior. Disponibilité immédiate est un gros plus.',
+    date: '14 déc. 2024',
+    time: '15:42',
+  },
+];
+
 

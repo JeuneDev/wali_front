@@ -25,6 +25,7 @@ import MonProfil from './pages/candidat/MonProfil';
 import ModifierProfil from './pages/candidat/ModifierProfil';
 import MesCandidatures from './pages/candidat/MesCandidatures';
 import Favoris from './pages/candidat/Favoris';
+import Competences from './pages/candidat/Competences';
 
 // Pages recruteur
 import EspaceRecruteurDashboard from './pages/recruteur/EspaceRecruteurDashboard';
@@ -34,6 +35,7 @@ import DetailOffreCandidatures from './pages/recruteur/DetailOffreCandidatures';
 import ProfilCandidatVueRecruteur from './pages/recruteur/ProfilCandidatVueRecruteur';
 import RechercheCandidats from './pages/recruteur/RechercheCandidats';
 import CandidatsFavoris from './pages/recruteur/CandidatsFavoris';
+import Analytics from './pages/recruteur/Analytics';
 
 function App() {
   return (
@@ -58,6 +60,7 @@ function App() {
           <Route path="/candidat/profil/modifier" element={<ModifierProfil />} />
           <Route path="/candidat/candidatures" element={<MesCandidatures />} />
           <Route path="/candidat/favoris" element={<Favoris />} />
+          <Route path="/candidat/competences" element={<Competences />} />
           <Route path="/candidat/messages" element={<Messages />} />
           <Route path="/candidat/notifications" element={<Notifications />} />
           <Route path="/candidat/parametres" element={<Parametres />} />
@@ -72,6 +75,7 @@ function App() {
           <Route path="/recruteur/candidats/:id" element={<ProfilCandidatVueRecruteur />} />
           <Route path="/recruteur/recherche-candidats" element={<RechercheCandidats />} />
           <Route path="/recruteur/favoris" element={<CandidatsFavoris />} />
+          <Route path="/recruteur/analytics" element={<Analytics />} />
           <Route path="/recruteur/messages" element={<Messages />} />
           <Route path="/recruteur/notifications" element={<Notifications />} />
           <Route path="/recruteur/parametres" element={<Parametres />} />

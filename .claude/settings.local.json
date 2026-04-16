@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls src/components/common/ src/pages/recruteur/Analytics.* src/pages/candidat/Competences.*)"
+    ]
+  }
+}

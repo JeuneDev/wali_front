@@ -75,6 +75,7 @@ export default function Header() {
     ? [
         { to: '/candidat/profil', label: 'Mon profil' },
         { to: '/candidat/candidatures', label: 'Mes candidatures' },
+        { to: '/candidat/competences', label: 'Compétences' },
         { to: '/candidat/favoris', label: 'Favoris' },
         { to: '/candidat/messages', label: 'Messages' },
         { to: '/candidat/parametres', label: 'Paramètres' },
@@ -82,7 +83,7 @@ export default function Header() {
     : isRecruteur
     ? [
         { to: '/recruteur/offres', label: 'Mes offres' },
-        { to: '/recruteur/offres/nouvelle', label: 'Publier une offre' },
+        { to: '/recruteur/analytics', label: 'Analytics' },
         { to: '/recruteur/favoris', label: 'Candidats favoris' },
         { to: '/recruteur/messages', label: 'Messages' },
         { to: '/recruteur/parametres', label: 'Paramètres' },

@@ -1,5 +1,13 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { mockProfilCandidatRecruteur } from '../../data/mockData';
+import { useToast } from '../../context/ToastContext';
+import {
+  mockProfilCandidatRecruteur,
+  mockCandidatureTimeline,
+  mockRecruiterNotes,
+  mockMatchScores,
+} from '../../data/mockData';
+import MatchScore from '../../components/common/MatchScore';
 import './ProfilCandidatVueRecruteur.css';
 
 const STATUS_CONFIG = {
@@ -9,9 +17,70 @@ const STATUS_CONFIG = {
   Rejetée:         { className: 'cand-status--rejected',    label: 'Rejetée' },
 };
 
+const TIMELINE_ICONS = {
+  send: (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <line x1="22" y1="2" x2="11" y2="13"/>
+      <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+    </svg>
+  ),
+  eye: (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+      <circle cx="12" cy="12" r="3"/>
+    </svg>
+  ),
+  note: (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+    </svg>
+  ),
+  check: (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+  ),
+  message: (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+  ),
+};
+
 export default function ProfilCandidatVueRecruteur() {
   const p = mockProfilCandidatRecruteur;
   const st = STATUS_CONFIG[p.applicationStatus] ?? STATUS_CONFIG.Nouveau;
+  const { toast } = useToast();
+
+  const matchScore = mockMatchScores.cs1;
+
+  const [notes, setNotes] = useState(mockRecruiterNotes);
+  const [newNote, setNewNote] = useState('');
+
+  const handleAddNote = (e) => {
+    e.preventDefault();
+    if (!newNote.trim()) return;
+    setNotes([
+      ...notes,
+      {
+        id: `note${Date.now()}`,
+        author: 'Sarah Camara',
+        authorRole: 'Recruteuse principale',
+        avatar: 'https://ui-avatars.com/api/?name=Sarah+Camara&background=0B7A75&color=fff&size=48',
+        content: newNote.trim(),
+        date: "Aujourd'hui",
+        time: 'À l\'instant',
+      },
+    ]);
+    setNewNote('');
+    toast.success('Note interne ajoutée');
+  };
+
+  const handleDeleteNote = (id) => {
+    setNotes(notes.filter((n) => n.id !== id));
+    toast.info('Note supprimée');
+  };
 
   return (
     <div className="profil-recruteur-page">
@@ -170,6 +239,90 @@ export default function ProfilCandidatVueRecruteur() {
               </div>
             </section>
 
+            {/* ── Timeline / Historique ────────────── */}
+            <section className="pr-section">
+              <h2 className="pr-section-title">Historique de la candidature</h2>
+              <div className="pr-timeline-feed">
+                {mockCandidatureTimeline.map((ev, i) => (
+                  <div key={ev.id} className="pr-feed-item">
+                    <div className={`pr-feed-icon pr-feed-icon--${ev.type}`}>
+                      {TIMELINE_ICONS[ev.icon]}
+                    </div>
+                    {i < mockCandidatureTimeline.length - 1 && <div className="pr-feed-line" aria-hidden />}
+                    <div className="pr-feed-content">
+                      <div className="pr-feed-head">
+                        <p className="pr-feed-title">{ev.title}</p>
+                        <span className="pr-feed-time">{ev.date} · {ev.time}</span>
+                      </div>
+                      <p className="pr-feed-desc">{ev.description}</p>
+                      {ev.actor && <span className="pr-feed-actor">Par {ev.actor}</span>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* ── Notes internes ───────────────────── */}
+            <section className="pr-section">
+              <div className="pr-notes-header">
+                <h2 className="pr-section-title" style={{ marginBottom: 0, paddingBottom: 0, border: 'none' }}>
+                  Notes internes de l'équipe
+                </h2>
+                <span className="pr-notes-badge">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                  Privé à l'équipe
+                </span>
+              </div>
+
+              <div className="pr-notes-list">
+                {notes.map((n) => (
+                  <div key={n.id} className="pr-note-item">
+                    <img src={n.avatar} alt={n.author} className="pr-note-avatar" />
+                    <div className="pr-note-body">
+                      <div className="pr-note-head">
+                        <div>
+                          <p className="pr-note-author">{n.author}</p>
+                          <p className="pr-note-role">{n.authorRole} · {n.date} · {n.time}</p>
+                        </div>
+                        <button
+                          className="pr-note-delete"
+                          onClick={() => handleDeleteNote(n.id)}
+                          title="Supprimer la note"
+                          aria-label="Supprimer"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <polyline points="3 6 5 6 21 6"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                          </svg>
+                        </button>
+                      </div>
+                      <p className="pr-note-content">{n.content}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <form className="pr-note-composer" onSubmit={handleAddNote}>
+                <textarea
+                  className="pr-note-input"
+                  placeholder="Ajouter une note visible par votre équipe…"
+                  value={newNote}
+                  onChange={(e) => setNewNote(e.target.value)}
+                  rows="3"
+                />
+                <button type="submit" className="pr-note-submit" disabled={!newNote.trim()}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="22" y1="2" x2="11" y2="13"/>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                  </svg>
+                  Publier la note
+                </button>
+              </form>
+            </section>
+
             {/* ── Documents ────────────────────────── */}
             <section className="pr-section">
               <h2 className="pr-section-title">Documents</h2>
@@ -211,9 +364,18 @@ export default function ProfilCandidatVueRecruteur() {
                 </svg>
                 {p.location}
               </p>
-              <span className={`cand-status-badge ${st.className}`} style={{ marginBottom: 'var(--spacing-md)' }}>
+              <span className={`cand-status-badge ${st.className}`}>
                 {st.label}
               </span>
+
+              {/* Match Score IA */}
+              <div className="pr-sidebar-match">
+                <MatchScore score={matchScore} size="lg" showLabel />
+                <p className="pr-sidebar-match-desc">
+                  Correspondance calculée à partir des compétences, de l'expérience et des préférences du candidat
+                </p>
+              </div>
+
               <p className="pr-sidebar-date">Candidature le {p.applicationDate}</p>
 
               <div className="pr-sidebar-actions">

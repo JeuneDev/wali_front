@@ -386,6 +386,251 @@
 
 .pr-offer-link:hover { text-decoration: underline; }
 
+/* ── Timeline feed (historique candidature) ── */
+.pr-timeline-feed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.pr-feed-item {
+  display: flex;
+  gap: var(--spacing-md);
+  position: relative;
+}
+
+.pr-feed-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.pr-feed-icon--applied  { background: var(--color-primary-light); color: var(--color-primary); }
+.pr-feed-icon--viewed   { background: rgba(37, 99, 235, 0.1);     color: #2563EB; }
+.pr-feed-icon--note     { background: rgba(217, 119, 6, 0.1);     color: #D97706; }
+.pr-feed-icon--status   { background: rgba(5, 150, 105, 0.1);     color: var(--color-success); }
+.pr-feed-icon--message  { background: rgba(124, 58, 237, 0.1);    color: #7C3AED; }
+
+.pr-feed-line {
+  position: absolute;
+  top: 32px;
+  left: 15px;
+  width: 2px;
+  bottom: -24px;
+  background: var(--color-border);
+}
+
+.pr-feed-content { flex: 1; padding-bottom: var(--spacing-sm); }
+
+.pr-feed-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  margin-bottom: 2px;
+}
+
+.pr-feed-title {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.pr-feed-time {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+
+.pr-feed-desc {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.pr-feed-actor {
+  display: inline-block;
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+/* ── Notes internes ─────────────────────── */
+.pr-notes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.pr-notes-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  background: rgba(217, 119, 6, 0.1);
+  color: #D97706;
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.pr-notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.pr-note-item {
+  display: flex;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-surface-2);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-warning);
+}
+
+.pr-note-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid var(--color-surface-1);
+}
+
+.pr-note-body { flex: 1; min-width: 0; }
+
+.pr-note-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+}
+
+.pr-note-author {
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.pr-note-role {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  margin-top: 1px;
+}
+
+.pr-note-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-tertiary);
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  transition: all var(--transition-fast);
+}
+
+.pr-note-delete:hover {
+  color: var(--color-error);
+  background: rgba(220, 38, 38, 0.08);
+}
+
+.pr-note-content {
+  font-size: var(--font-size-body-sm);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+}
+
+.pr-note-composer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.pr-note-input {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-body);
+  color: var(--color-text-primary);
+  background: var(--color-surface-1);
+  font-family: var(--font-primary);
+  resize: vertical;
+  outline: none;
+  transition: border-color var(--transition-fast);
+  box-sizing: border-box;
+  min-height: 64px;
+}
+
+.pr-note-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.pr-note-submit {
+  align-self: flex-end;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+  color: #fff;
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  font-family: var(--font-primary);
+  transition: background-color var(--transition-fast);
+}
+
+.pr-note-submit:hover:not(:disabled) { background: var(--color-primary-hover); }
+.pr-note-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Match score in sidebar ──────────────── */
+.pr-sidebar-match {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  margin: var(--spacing-md) 0 var(--spacing-sm);
+  background: var(--color-surface-2);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.pr-sidebar-match-desc {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  text-align: center;
+  line-height: 1.4;
+  max-width: 200px;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .pr-layout { grid-template-columns: 1fr; }
@@ -398,4 +643,5 @@
   .pr-candidate-header { flex-direction: column; align-items: center; text-align: center; }
   .pr-candidate-details { flex-direction: column; align-items: center; }
   .pr-timeline-header { flex-direction: column; }
+  .pr-note-item { flex-direction: column; }
 }

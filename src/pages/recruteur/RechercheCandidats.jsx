@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { mockCandidatsSearch } from '../../data/mockData';
+import { mockCandidatsSearch, mockMatchScores } from '../../data/mockData';
+import MatchScore from '../../components/common/MatchScore';
 import './RechercheCandidats.css';
 
 // ── Constants ──────────────────────────────────
@@ -29,7 +30,7 @@ const AVAILABILITY_OPTIONS = ['Toutes', 'Immédiate', 'Sous préavis'];
 const CONTRACT_OPTIONS = ['Tous', 'CDI', 'CDD', 'Freelance'];
 
 const SORT_OPTIONS = [
-  { label: 'Pertinence', value: 'relevance' },
+  { label: 'Match IA (meilleurs)', value: 'match-desc' },
   { label: 'Plus expérimentés', value: 'exp-desc' },
   { label: 'Moins expérimentés', value: 'exp-asc' },
 ];
@@ -59,7 +60,7 @@ export default function RechercheCandidats() {
   const [expFilter, setExpFilter]   = useState('all');
   const [availability, setAvail]    = useState('Toutes');
   const [contract, setContract]     = useState('Tous');
-  const [sortBy, setSort]           = useState('relevance');
+  const [sortBy, setSort]           = useState('match-desc');
   const [page, setPage]             = useState(1);
   const [saved, setSaved]           = useState(new Set());
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -92,7 +93,10 @@ export default function RechercheCandidats() {
 
   // Filtering + sorting
   const results = useMemo(() => {
-    let list = [...mockCandidatsSearch];
+    let list = mockCandidatsSearch.map((c) => ({
+      ...c,
+      matchScore: mockMatchScores[c.id] ?? 0,
+    }));
 
     if (query.trim()) {
       const q = query.toLowerCase();
@@ -120,8 +124,9 @@ export default function RechercheCandidats() {
       list = list.filter((c) => c.contractTypes.includes(contract));
     }
 
-    if (sortBy === 'exp-desc') list.sort((a, b) => b.experienceYears - a.experienceYears);
-    else if (sortBy === 'exp-asc') list.sort((a, b) => a.experienceYears - b.experienceYears);
+    if (sortBy === 'match-desc')   list.sort((a, b) => b.matchScore - a.matchScore);
+    else if (sortBy === 'exp-desc') list.sort((a, b) => b.experienceYears - a.experienceYears);
+    else if (sortBy === 'exp-asc')  list.sort((a, b) => a.experienceYears - b.experienceYears);
 
     return list;
   }, [query, sectors, expFilter, availability, contract, sortBy]);
@@ -330,23 +335,26 @@ export default function RechercheCandidats() {
                     </div>
                   </div>
 
-                  {/* ── Right: actions ── */}
+                  {/* ── Right: match score + actions ── */}
                   <div className="rc-card-actions">
-                    <button
-                      className={`rc-save-btn ${isSaved ? 'rc-save-btn--saved' : ''}`}
-                      onClick={() => toggleSave(c.id)}
-                      title={isSaved ? 'Retirer des favoris' : 'Sauvegarder le profil'}
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill={isSaved ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
-                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-                      </svg>
-                    </button>
-                    <Link
-                      to={`/recruteur/candidats/${c.id}`}
-                      className="rc-view-btn"
-                    >
-                      Voir le profil
-                    </Link>
+                    <MatchScore score={c.matchScore} size="md" />
+                    <div className="rc-actions-row">
+                      <button
+                        className={`rc-save-btn ${isSaved ? 'rc-save-btn--saved' : ''}`}
+                        onClick={() => toggleSave(c.id)}
+                        title={isSaved ? 'Retirer des favoris' : 'Sauvegarder le profil'}
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill={isSaved ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
+                          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                        </svg>
+                      </button>
+                      <Link
+                        to={`/recruteur/candidats/${c.id}`}
+                        className="rc-view-btn"
+                      >
+                        Voir
+                      </Link>
+                    </div>
                   </div>
                 </div>
               );
