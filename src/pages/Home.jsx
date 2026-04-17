@@ -150,9 +150,7 @@ export default function Home() {
     restDelta: 0.001,
   });
 
-  const handleSearch = (searchData) => {
-    console.log('Search:', searchData);
-  };
+  // SearchBar now handles navigation internally via useNavigate
 
   return (
     <div className="home">
@@ -217,7 +215,7 @@ export default function Home() {
               </motion.p>
 
               <motion.div className="hero-search-wrapper" variants={itemVariants}>
-                <SearchBar onSearch={handleSearch} />
+                <SearchBar />
               </motion.div>
 
               <motion.div className="hero-badges" variants={itemVariants}>

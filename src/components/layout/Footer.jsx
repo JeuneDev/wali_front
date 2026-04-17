@@ -6,9 +6,9 @@ export default function Footer() {
         <footer className="footer">
             <div className="container">
                 <div className="footer-content">
-                    {/* Column 1 - JobGuinée */}
+                    {/* Column 1 - Wali */}
                     <div className="footer-column">
-                        <h4 className="footer-title">JobGuinée</h4>
+                        <h4 className="footer-title">Wali</h4>
                         <ul className="footer-links">
                             <li><Link to="/about">À propos de nous</Link></li>
                             <li><Link to="/contact">Nous contacter</Link></li>
@@ -50,7 +50,7 @@ export default function Footer() {
                 {/* Bottom section */}
                 <div className="footer-bottom">
                     <p className="footer-copyright">
-                        © 2026 JobGuinée. Tous droits réservés.
+                        © 2026 Wali. Tous droits réservés.
                     </p>
                     <div className="footer-social">
                         <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">

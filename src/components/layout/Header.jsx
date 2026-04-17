@@ -96,7 +96,7 @@ export default function Header() {
         <div className="header-content">
           {/* Logo */}
           <Link to="/" className="logo" onClick={closeMenu}>
-            <img src={logo} alt="JobGuinée" className="logo-image" />
+            <img src={logo} alt="Wali" className="logo-image" />
           </Link>
 
           {/* Burger */}
